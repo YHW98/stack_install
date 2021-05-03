@@ -1,20 +1,20 @@
+#!/bin/bash
 sudo useradd -s /bin/bash -d /opt/stack -m stack
 echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
-sudo su -stack
-git clone https://git.openstack.org/openstack-dev/devstack
-cd /opt/stack/devstack
+su - stack -c "git clone https://git.openstack.org/openstack-dev/devstack /opt/stack/devstack"
 
-touch local.conf
-echo "[[local|localrc]]" | sudo tee -a local.conf
-echo "ADMIN_PASSWORD=10627125" | sudo tee -a local.conf
-echo "DATABASE_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a local.conf
-echo "RABBIT_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a local.conf
-echo "SERVICE_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a local.conf
-echo "HOST_IP=10.135.60.2" | sudo tee -a local.conf
-echo "no_proxy=\"localhost,127.0.0.0,10.135.60.2\"" | sudo tee -a local.conf
+su - stack -c "touch /opt/stack/devstack/local.conf"
+echo "[[local|localrc]]" | sudo tee -a /opt/stack/devstack/local.conf
+echo "ADMIN_PASSWORD=10627125" | sudo tee -a /opt/stack/devstack/local.conf
+echo "DATABASE_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a /opt/stack/devstack/local.conf
+echo "RABBIT_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a /opt/stack/devstack/local.conf
+echo "SERVICE_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a /opt/stack/devstack/local.conf
+echo "HOST_IP=10.0.2.15" | sudo tee -a /opt/stack/devstack/local.conf
+echo "no_proxy=\"localhost,127.0.0.0,10.0.2.15\"" | sudo tee -a /opt/stack/devstack/local.conf
 
-pwd && ls
+chown -r stack:stack /opt/stack/devstack
+ls -l /opt/stack/devstack
 sleep 5
 echo "Check if the information is correct"
 
-./stack.sh
+su - stack -c "/opt/stack/devstack/stack.sh"
