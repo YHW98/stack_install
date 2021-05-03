@@ -1,0 +1,20 @@
+sudo useradd -s /bin/bash -d /opt/stack -m stack
+echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+sudo su -stack
+git clone https://git.openstack.org/openstack-dev/devstack
+cd /opt/stack/devstack
+
+touch local.conf
+echo "[[local|localrc]]" | sudo tee -a local.conf
+echo "ADMIN_PASSWORD=10627125" | sudo tee -a local.conf
+echo "DATABASE_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a local.conf
+echo "RABBIT_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a local.conf
+echo "SERVICE_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a local.conf
+echo "HOST_IP=10.135.60.2" | sudo tee -a local.conf
+echo "no_proxy=\"localhost,127.0.0.0,10.135.60.2\"" | sudo tee -a local.conf
+
+pwd && ls
+sleep 5
+echo "Check if the information is correct"
+
+./stack.sh
