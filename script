@@ -12,7 +12,7 @@ echo "SERVICE_PASSWORD=\$ADMIN_PASSWORD" | sudo tee -a /opt/stack/devstack/local
 echo "HOST_IP=10.0.2.15" | sudo tee -a /opt/stack/devstack/local.conf
 echo "no_proxy=\"localhost,127.0.0.0,10.0.2.15\"" | sudo tee -a /opt/stack/devstack/local.conf
 
-chown -r stack:stack /opt/stack/devstack
+chown -R stack:stack /opt/stack/devstack
 ls -l /opt/stack/devstack
 sleep 5
 echo "Check if the information is correct"
